@@ -6,7 +6,7 @@ import time
 
 st.set_page_config(page_title="Smart Light Controller", page_icon="💡")
 
-st_autorefresh(interval=1000, quiet=True)
+st_autorefresh(interval=1000)
 
 @st.cache_resource
 def load():
