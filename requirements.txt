@@ -3,5 +3,4 @@ tf-keras
 tensorflow
 pillow
 numpy
-streamlit-webrtc
-av
+streamlit-autorefresh
