@@ -69,17 +69,17 @@ if uploaded_file is not None:
         if st.session_state.lights_off_since is None:
             st.session_state.lights_off_since = time.time()
 
-    st.info(f"Detected: **{class_name}** — Confidence: {confidence:.2%}")
+    st.write(f"**Detected:** {class_name}")
+    st.progress(float(confidence), text=f"Confidence: {confidence:.2%}")
 
 else:
-    # No image uploaded — stop the timer and reset
     if st.session_state.lights_off_since is not None:
         st.session_state.total_seconds_saved += time.time() - st.session_state.lights_off_since
         st.session_state.lights_off_since = None
     st.session_state.last_class = None
     st.session_state.last_confidence = None
 
-# Energy savings (always visible)
+# Energy savings
 st.divider()
 st.subheader("⚡ Energy Savings")
 
@@ -95,3 +95,7 @@ seconds = int(total % 60)
 st.metric("Lights off for", f"{minutes}m {seconds}s")
 st.metric("Energy saved", f"{kwh * 1000:.2f} Wh")
 st.metric("CO₂ avoided", f"{kwh * 0.233:.4f} kg")
+
+if st.button("🔄 Reset counter"):
+    st.session_state.total_seconds_saved = 0
+    st.session_state.lights_off_since = None
