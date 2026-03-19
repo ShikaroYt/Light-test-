@@ -71,17 +71,13 @@ if uploaded_file is not None:
 
     st.info(f"Detected: **{class_name}** — Confidence: {confidence:.2%}")
 
-elif st.session_state.last_class is not None:
-    # Keep showing result and updating timer after file is cleared
-    occupied = is_occupied(st.session_state.last_class)
-    st.divider()
-    if occupied:
-        st.markdown("## 💡 Lights: ON")
-        st.success("Room is **occupied** — lights should be on.")
-    else:
-        st.markdown("## 🌑 Lights: OFF")
-        st.warning("Room is **empty** — lights should be off.")
-    st.info(f"Detected: **{st.session_state.last_class}** — Confidence: {st.session_state.last_confidence:.2%}")
+else:
+    # No image uploaded — stop the timer and reset
+    if st.session_state.lights_off_since is not None:
+        st.session_state.total_seconds_saved += time.time() - st.session_state.lights_off_since
+        st.session_state.lights_off_since = None
+    st.session_state.last_class = None
+    st.session_state.last_confidence = None
 
 # Energy savings (always visible)
 st.divider()
